@@ -1,4 +1,5 @@
 import type { Character } from "~/types/interfaces";
+import defaultImage from "./imgCharacter/defaultmarvel.jpg";
 
 interface CharacterCardProps {
   character: Character;
@@ -11,7 +12,7 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
         src={
           character.thumbnail
             ? `${character.thumbnail.path}.${character.thumbnail.extension}`
-            : "/placeholder-image.jpg"
+            : defaultImage
         }
         alt={character.name}
         className="w-32 h-32 rounded-full object-cover border-2 border-red-500"
@@ -20,7 +21,7 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
       <p className="text-sm text-gray-400 text-center mt-2 line-clamp-3">
         {character.description && character.description.trim().length > 0
           ? character.description
-          : "Sin descripción disponible"}
+          : "No description available"}
       </p>
     </div>
   );
