@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
-import { getCharactersByName} from '~/services/marvelapi';
+import React from 'react';
 
-function Search() {
-  const [query, setQuery] = useState('');
+interface SearchProps {
+  placeholder: string;
+  onSearchChange: (searchText: string) => void;
+}
 
-  const handleSearch = async () => {
-    console.log('Buscando:', query);
-    const data: MarvelApiResponse<MarvelCharacter> = await getCharactersByName(query);
-    console.log(data);
-  };
+const Search = ({ placeholder, onSearchChange }: SearchProps) => {
+  function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    onSearchChange(e.target.value);
+  }
 
   return (
     <div className="text-center">
       <input 
-        className="p-3"
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search a character..."
-      />
-      <button className="bg-red-500 p-2 rounded-3xl ml-4" onClick={handleSearch}>Search</button>
+        className="p-3 mt-8 bg-red-400 rounded-3xl"
+        type="search"
+        onChange={onChange}
+        placeholder={placeholder}
+        />
+      <button className="bg-red-500 p-2 rounded-3xl ml-4">Search</button>
     </div>
   );
 }
