@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Search from "~/components/Search/Search";
+import Search from "~/components/Search/SearchBox";
 import CharacterList from "../components/Character/CharacterList";
 import { getCharacters } from "../services/marvelapi";
 import type { Character } from "../types/interfaces";
@@ -30,16 +30,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center">
-      <Search
-        placeholder="Search a character..."
-        onSearchChange={(text) => setSearchText(text)}
-      />
-      <h1 className="text-3xl font-bold text-white my-6">Marvel Characters</h1>
-      {loading ? (
-        <p className="text-white">Loading...</p>
-      ) : (
-        <CharacterList characters={filteredCharacters} />
-      )}
+      <Search />      
     </div>
   );
 };
