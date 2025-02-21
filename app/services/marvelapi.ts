@@ -4,7 +4,7 @@ import type { ApiResponse, Character } from "../types/interfaces";
 const publicKey = "f739cb1f8d597f885ba53ec152be4025";
 const privateKey = "661b36cb6b083e746265831e6f31ab158967cc87";
 
-export async function getCharacters(limit: number = 20, offset: number = 0): Promise<Character[]> {
+export async function getCharacters(limit: number = 200, offset: number = 0): Promise<Character[]> {
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
   
@@ -13,15 +13,15 @@ export async function getCharacters(limit: number = 20, offset: number = 0): Pro
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
+      throw new Error(`Error in the request: ${response.status} - ${response.statusText}`);
     }
 
     const data: ApiResponse = await response.json();
 
-    console.log(`Se obtuvieron ${data.data.results.length} personajes`);
+    console.log(`You get ${data.data.results.length} characters`);
     return data.data.results;
   } catch (error) {
-    console.error("Error en getCharacters:", error);
+    console.error("Error in getCharacters:", error);
     return [];
   }
 }
@@ -31,49 +31,51 @@ export async function getCharacterById(id: number): Promise<Character | null> {
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
 
 
-  console.log(`Hash generado: ${hash}`);
+  console.log(`Hash generated: ${hash}`);
 
   const url = `https://gateway.marvel.com/v1/public/characters/${id}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
 
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Error en la solicitud: ${response.status}`);
+      throw new Error(`Error in the request: ${response.status}`);
     }
 
     const data: ApiResponse = await response.json();
     
     if (data.data.results.length === 0) {
-      console.warn(`No se encontró un personaje con ID ${id}`);
+      console.warn(`Didn't found character with id: ${id}`);
       return null;
     }
 
-    console.log("Respuesta de la API:", data);
+    console.log("Request of the API:", data);
     return data.data.results[0]; 
   } catch (error) {
-    console.error("Error en getCharacterById:", error);
+    console.error("Error in getCharacterById:", error);
     return null;
   }
 }
 
-export async function getCharactersByName(startWith: string): Promise<void> {
+export async function getCharactersByName(startWith: string): Promise<Character[]> {
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
 
-
-  console.log(`Hash generado: ${hash}`);
+  console.log(`Hash generated: ${hash}`);
 
   const url = `https://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}&nameStartsWith=${startWith}`;
 
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Error en la solicitud: ${response.status}`);
+      throw new Error(`Error in the request: ${response.status}`);
     }
     const data: ApiResponse = await response.json();
-    console.log("Respuesta de la API:", data);
+    console.log("Request of the API:", data);
+
+    return data.data.results || [];
   } catch (error) {
     console.error("Error:", error);
+    return []; 
   }
 }
 
@@ -82,17 +84,17 @@ export async function getComics(): Promise<void> {
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
 
 
-  console.log(`Hash generado: ${hash}`);
+  console.log(`Hash generated: ${hash}`);
 
   const url = `https://gateway.marvel.com/v1/public/comics?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
 
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Error en la solicitud: ${response.status}`);
+      throw new Error(`Error in the request: ${response.status}`);
     }
     const data: ApiResponse = await response.json();
-    console.log("Respuesta de la API:", data);
+    console.log("Request of the API:", data);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -100,22 +102,20 @@ export async function getComics(): Promise<void> {
 
 export async function getMovies(): Promise<void> {
   const ts = Date.now().toString();
-  const hash = crypto
-    .createHash("md5")
-    .update(ts + privateKey + publicKey)
-    .digest("hex");
+  const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
 
-  console.log(`Hash generado: ${hash}`);
+
+  console.log(`Hash generated: ${hash}`);
 
   const url = `https://gateway.marvel.com/v1/public/movies?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
 
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Error en la solicitud: ${response.status}`);
+      throw new Error(`Error in the request: ${response.status}`);
     }
     const data: ApiResponse = await response.json();
-    console.log("Respuesta de la API:", data);
+    console.log("Request of the API:", data);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -123,5 +123,5 @@ export async function getMovies(): Promise<void> {
 
 // Llamada de ejemplo
 getCharactersByName("S")
-  .then(() => console.log("Busqueda completada"))
-  .catch((error) => console.error("Error en la busqueda:", error));
+  .then(() => console.log("Search completed"))
+  .catch((error) => console.error("Error in the search:", error));
