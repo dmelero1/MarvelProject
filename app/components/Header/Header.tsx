@@ -15,11 +15,8 @@ function Header() {
           <Link to="comics" className="px-4 py-2 rounded-lg transition duration-300 hover:bg-red-800">
             Comics
           </Link>
-          <Link to="films" className="px-4 py-2 rounded-lg transition duration-300 hover:bg-red-800">
-            Films
-          </Link>
-          <Link to="tv-shows" className="whitespace-nowrap px-3 py-2 rounded-lg transition duration-300 hover:bg-red-800">
-            TV Shows
+          <Link to="series" className="whitespace-nowrap px-3 py-2 rounded-lg transition duration-300 hover:bg-red-800">
+            Series
           </Link>
         </nav>
       </div>

@@ -1,5 +1,4 @@
 import type { Character } from "~/types/interfaces";
-import defaultImage from "./imgCharacter/defaultmarvel.jpg";
 
 interface CharacterCardProps {
   character: Character;
@@ -9,11 +8,7 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
   return (
     <div className="bg-gray-800 rounded-lg shadow-md p-4 flex flex-col items-center text-white transition-transform transform hover:scale-105">
       <img
-        src={
-          character.thumbnail
-            ? `${character.thumbnail.path}.${character.thumbnail.extension}`
-            : defaultImage
-        }
+        src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
         alt={character.name}
         className="w-32 h-32 rounded-full object-cover border-2 border-red-500"
       />

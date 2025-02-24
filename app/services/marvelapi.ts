@@ -100,24 +100,31 @@ export async function getComics(): Promise<void> {
   }
 }
 
-export async function getMovies(): Promise<void> {
+export async function getSeries(): Promise<any[]> {
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
-
-
-  console.log(`Hash generated: ${hash}`);
-
-  const url = `https://gateway.marvel.com/v1/public/movies?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
+  const url = `https://gateway.marvel.com/v1/public/series?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
 
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Error in the request: ${response.status}`);
+      throw new Error(`Error en la petición: ${response.status}`);
     }
-    const data: ApiResponse = await response.json();
-    console.log("Request of the API:", data);
+    const data = await response.json();
+    console.log("API Data:", data);
+
+    return data.data?.results
+      ?.map((serie: any) => ({
+        id: serie.id,
+        title: serie.title,
+        startYear: serie.startYear ?? 0, // Usa 0 si no tiene año
+        thumbnail: serie.thumbnail ?? null, // Permite null
+      }))
+      .sort((a: any, b: any) => b.startYear - a.startYear); // Ordenar por año DESC
+
   } catch (error) {
     console.error("Error:", error);
+    return [];
   }
 }
 

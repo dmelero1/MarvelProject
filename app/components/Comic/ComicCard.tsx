@@ -1,5 +1,4 @@
 import type { Comic } from "~/types/interfaces";
-import defaultImage from "./imgComic/defaultmarvel.jpg";
 
 interface ComicCardProps {
   comic: Comic;
@@ -9,11 +8,7 @@ const ComicCard = ({ comic }: ComicCardProps) => {
   return (
     <div className="bg-gray-800 rounded-lg shadow-md p-4 flex flex-col items-center text-white transition-transform transform hover:scale-105">
       <img
-        src={
-          comic.thumbnail
-            ? `${comic.thumbnail.path}.${comic.thumbnail.extension}`
-            : defaultImage
-        }
+        src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
         alt={comic.title}
         className="w-32 h-32 rounded object-cover border-2 border-red-500"
       />

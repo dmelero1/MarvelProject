@@ -4,5 +4,6 @@ export default [
     layout ("./layouts/index.tsx" , [
         index("routes/welcome.tsx"),
         route("comics", "routes/comics.tsx"),
+        route("series", "./routes/series.tsx"),
     ]),
 ] satisfies RouteConfig;
