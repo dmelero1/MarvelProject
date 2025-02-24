@@ -54,6 +54,38 @@ export interface Character {
     events: Events;
 }
 
+interface DateItem {
+    type: string;
+    date: string;
+  }
+  
+  interface Price {
+    type: string;
+    price: number;
+  }
+  
+  export interface Comic {
+    id: number;
+    digitalId: number;
+    title: string;
+    issueNumber: number;
+    variantDescription: string;
+    description: string;
+    modified: string;
+    isbn: string;
+    upc: string;
+    diamondCode: string;
+    ean: string;
+    issn: string;
+    format: string;
+    pageCount: number;
+    resourceURI: string;
+    thumbnail: Thumbnail;
+    series: Series;
+    dates: DateItem[];
+    prices: Price[];
+  }
+
 export interface ApiResponse {
     code: number;
     status: string;
@@ -65,3 +97,4 @@ export interface ApiResponse {
         results: Character[];
     };
 }
+
