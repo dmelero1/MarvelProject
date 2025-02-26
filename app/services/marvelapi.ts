@@ -4,7 +4,7 @@ import type { ApiResponse, Character, Comic } from "../types/interfaces";
 const publicKey = "f739cb1f8d597f885ba53ec152be4025";
 const privateKey = "661b36cb6b083e746265831e6f31ab158967cc87";
 
-export async function getCharacters(limit: number = 200, offset: number = 0): Promise<Character[]> {
+export async function getCharacters(limit: number = 500, offset: number = 0): Promise<Character[]> {
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
   
@@ -62,7 +62,7 @@ export async function getCharactersByName(startWith: string): Promise<Character[
 
   console.log(`Hash generated: ${hash}`);
 
-  const url = `https://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}&nameStartsWith=${startWith}`;
+  const url = `https://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}&nameStartsWith=${startWith}&limit=100`;
 
   try {
     const response = await fetch(url);
@@ -104,7 +104,7 @@ export async function getComicsByTitle(titleStartsWith: string): Promise<Comic[]
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
 
-  const url = `https://gateway.marvel.com/v1/public/comics?ts=${ts}&apikey=${publicKey}&hash=${hash}&titleStartsWith=${encodeURIComponent(titleStartsWith)}`;
+  const url = `https://gateway.marvel.com/v1/public/comics?ts=${ts}&apikey=${publicKey}&hash=${hash}&titleStartsWith=${encodeURIComponent(titleStartsWith)}&limit=50`;
 
   try {
     const response = await fetch(url);
@@ -125,7 +125,7 @@ export async function getComicsByTitle(titleStartsWith: string): Promise<Comic[]
 export async function getSeries(): Promise<any[]> {
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
-  const url = `https://gateway.marvel.com/v1/public/series?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
+  const url = `https://gateway.marvel.com/v1/public/series?ts=${ts}&apikey=${publicKey}&hash=${hash}&limit=50`;
 
   try {
     const response = await fetch(url);
@@ -139,10 +139,10 @@ export async function getSeries(): Promise<any[]> {
       ?.map((serie: any) => ({
         id: serie.id,
         title: serie.title,
-        startYear: serie.startYear ?? 0, // Usa 0 si no tiene año
-        thumbnail: serie.thumbnail ?? null, // Permite null
+        startYear: serie.startYear ?? 0,
+        thumbnail: serie.thumbnail ?? null, 
       }))
-      .sort((a: any, b: any) => b.startYear - a.startYear); // Ordenar por año DESC
+      .sort((a: any, b: any) => b.startYear - a.startYear);
 
   } catch (error) {
     console.error("Error:", error);
