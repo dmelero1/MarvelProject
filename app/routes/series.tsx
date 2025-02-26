@@ -34,7 +34,7 @@ const Series = () => {
   return (
     <div className="flex flex-col items-center w-full max-w-5xl mx-auto mt-10">
       <button
-        className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-800 transition duration-200"
+        className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-800 transition duration-200 cursor-pointer"
         onClick={fetchSeries}
       >
         Get Series
