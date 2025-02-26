@@ -2,7 +2,16 @@ export interface Thumbnail {
     path: string;
     extension: string;
 }
-
+export interface Comic {
+    id: number;
+    title: string;
+    description: string;
+    thumbnail: {
+      path: string;
+      extension: string;
+    };
+  }
+  
 export interface ComicSummary {
     resourceURI: string;
     name: string;

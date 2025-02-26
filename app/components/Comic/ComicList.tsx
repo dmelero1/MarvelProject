@@ -1,5 +1,5 @@
-import { Link } from "react-router";
-import ComicCard from "../Comic/ComicCard";
+import React from "react";
+import ComicCard from "./ComicCard";
 import type { Comic } from "~/types/interfaces";
 
 interface ComicListProps {
@@ -7,30 +7,19 @@ interface ComicListProps {
   hasSearched: boolean;
 }
 
-const ComicList = ({ comics = [], hasSearched }: ComicListProps) => {
-  if (!hasSearched) return null;
+const ComicList: React.FC<ComicListProps> = ({ comics = [], hasSearched }) => {
+  if (comics.length === 0 && hasSearched) {
+    return <p className="text-gray-400 mt-4">No comics found.</p>;
+  }
 
   return (
-    <div className="p-6 text-center">
-      <h1 className="text-3xl font-bold text-white my-6">Marvel Comics</h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {comics.length === 0 ? (
-          <p className="text-white text-center col-span-full">Comics not found</p>
-        ) : (
-          comics.map((comic) => (
-            <Link
-              to={`/comic/${comic.id}`}
-              key={comic.id}
-              className="block transform transition duration-300 hover:scale-105"
-            >
-              <ComicCard comic={comic} />
-            </Link>
-          ))
-        )}
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-3">
+      {comics.map((comic) => (
+        comic ? <ComicCard key={comic.id} comic={comic} /> : null 
+      ))}
     </div>
   );
 };
 
 export default ComicList;
+
