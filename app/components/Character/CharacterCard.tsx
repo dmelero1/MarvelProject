@@ -1,23 +1,24 @@
+import React from "react";
 import type { Character } from "~/types/interfaces";
 
 interface CharacterCardProps {
   character: Character;
 }
 
-const CharacterCard = ({ character }: CharacterCardProps) => {
+const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
   return (
-    <div className="bg-gray-800 rounded-lg shadow-md p-4 flex flex-col items-center text-white transition-transform transform hover:scale-105">
+    <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
       <img
         src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
         alt={character.name}
-        className="w-32 h-32 rounded-full object-cover border-2 border-red-500"
+        className="w-full h-60 object-cover rounded-t-xl"
       />
-      <h2 className="text-lg font-bold mt-3 text-center">{character.name}</h2>
-      <p className="text-sm text-gray-400 text-center mt-2 line-clamp-3">
-        {character.description && character.description.trim().length > 0
-          ? character.description
-          : "No description available"}
-      </p>
+      <div className="p-4 text-center">
+        <h3 className="text-lg font-bold text-white">{character.name}</h3>
+        <p className="text-gray-400 mt-2 text-sm">
+          {character.description ? character.description : "No description available"}
+        </p>
+      </div>
     </div>
   );
 };
