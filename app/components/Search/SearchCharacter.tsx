@@ -3,7 +3,7 @@ import { getCharactersByName } from "~/services/marvelapi";
 import CharacterCard from "../Character/CharacterCard";
 import type { Character } from "~/types/interfaces";
 
-const SearchBox = () => {
+const SearchCharacter = () => {
   const [query, setQuery] = useState("");
   const [characters, setCharacters] = useState<Character[]>([]); 
 
@@ -29,7 +29,7 @@ const SearchBox = () => {
           className="w-full px-4 py-2 border border-gray-600 rounded-lg shadow-md text-gray-200 bg-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200"
         />
         <button
-          className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition duration-200"
+          className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition duration-200 cursor-pointer"
           onClick={handleSearch}
         >
           Search
@@ -50,4 +50,4 @@ const SearchBox = () => {
   );
 };
 
-export default SearchBox;
+export default SearchCharacter;

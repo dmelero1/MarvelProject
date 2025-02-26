@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { getCharacters } from "~/services/marvelapi";
-import SearchBox from "../components/Search/SearchBox";
+import SearchBox from "../components/Search/SearchCharacter";
 import CharacterList from "../components/Character/CharacterList";
 import type { Character } from "../types/interfaces";
 import { useLoaderData } from "react-router";
@@ -26,7 +26,7 @@ export function HydrateFallback() {
   );
 }
 
-function Search() {
+function Characters() {
   const loaderData = useLoaderData() as { characters: Character[] };
 
   const [search, setSearch] = useState<string>("");
@@ -41,7 +41,7 @@ function Search() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-5">
       <header className="bg-gray-800 shadow-lg rounded-2xl p-8 max-w-lg text-center">
         <h3 className="text-2xl font-bold text-red-500 mb-4">Search for a Character</h3>
-        <Search />
+        <Characters  />
       </header>
 
       {/* Mostrar resultados */}
@@ -54,4 +54,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default Characters;
