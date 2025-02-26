@@ -1,14 +1,13 @@
-import React, { useState, useMemo } from "react";
-import { getComicsByTitle } from "~/services/marvelapi"; // Asegúrate de llamar la API correcta
+import React, { useState } from "react";
 import SearchComic from "../components/Search/SearchComic";
-import ComicList from "../components/Comic/ComicList";
-import type { Comic } from "../types/interfaces";
+import ComicCard from "../components/Comic/ComicCard";
+import type { Comic } from "~/types/interfaces";
 import { useLoaderData } from "react-router";
+import { getComicsByTitle } from "~/services/marvelapi";
 
-// Cargamos los cómics en lugar de los personajes
 export async function clientLoader() {
   try {
-    const comics: Comic[] = await getComicsByTitle(""); // Llamada inicial sin filtro
+    const comics: Comic[] = await getComicsByTitle("");
     return { comics };
   } catch (error) {
     console.error("Error fetching comics:", error);
@@ -16,7 +15,6 @@ export async function clientLoader() {
   }
 }
 
-// Componente de carga
 export function HydrateFallback() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
@@ -28,18 +26,15 @@ export function HydrateFallback() {
   );
 }
 
-function Comics() {
-  const loaderData = useLoaderData() as { comics: Comic[] };
-  const [comics, setComics] = useState<Comic[]>(loaderData.comics);
+const Comics = () => {
+  const [comics, setComics] = useState<Comic[]>([]);
+  const [orderBy, setOrderBy] = useState<"oldest" | "newest">("newest");
 
-  const [search, setSearch] = useState<string>("");
-
-  // Filtramos los cómics por título
-  const filteredComics = useMemo(() => {
-    return loaderData.comics.filter((comic) =>
-      comic.title.toLowerCase().startsWith(search.toLowerCase())
-    );
-  }, [search, loaderData.comics]);
+  const sortedComics = [...comics].sort((a, b) => {
+    const dateA = new Date(a.dates.find((d) => d.type === "onsaleDate")?.date || 0);
+    const dateB = new Date(b.dates.find((d) => d.type === "onsaleDate")?.date || 0);
+    return orderBy === "newest" ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime();
+  });
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-5">
@@ -48,11 +43,34 @@ function Comics() {
         <SearchComic setComics={setComics} />
       </header>
 
-      {/* Mostrar resultados */}
-      {comics.length === 0 ? (
-        <p className="text-gray-400 mt-4"></p>
+      {comics.length > 0 && (
+        <div className="flex gap-4 my-6">
+          <button
+            onClick={() => setOrderBy("newest")}
+            className={`px-4 py-2 rounded-lg ${orderBy === "newest" ? "bg-red-600 text-white" : "bg-gray-700 text-gray-300"}`}
+          >
+            Newest
+          </button>
+          <button
+            onClick={() => setOrderBy("oldest")}
+            className={`px-4 py-2 rounded-lg ${orderBy === "oldest" ? "bg-red-600 text-white" : "bg-gray-700 text-gray-300"}`}
+          >
+            Oldest
+          </button>
+        </div>
+      )}
+
+      {sortedComics.length > 0 ? (
+        <div className="text-center w-full">
+          <h1 className="text-3xl font-bold text-white my-6">Marvel Comics</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-3">
+            {sortedComics.map((comic) => (
+              <ComicCard key={comic.id} comic={comic} />
+            ))}
+          </div>
+        </div>
       ) : (
-        <ComicList comics={comics} hasSearched={true} />
+        <p className="text-gray-400 mt-4"></p>
       )}
     </div>
   );
