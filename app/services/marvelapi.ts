@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import type { ApiResponse, Character } from "../types/interfaces";
+import type { ApiResponse, Character, Comic } from "../types/interfaces";
 
 const publicKey = "f739cb1f8d597f885ba53ec152be4025";
 const privateKey = "661b36cb6b083e746265831e6f31ab158967cc87";
@@ -97,6 +97,28 @@ export async function getComics(): Promise<void> {
     console.log("Request of the API:", data);
   } catch (error) {
     console.error("Error:", error);
+  }
+}
+
+export async function getComicsByTitle(titleStartsWith: string): Promise<Comic[]> {
+  const ts = Date.now().toString();
+  const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
+
+  const url = `https://gateway.marvel.com/v1/public/comics?ts=${ts}&apikey=${publicKey}&hash=${hash}&titleStartsWith=${encodeURIComponent(titleStartsWith)}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error in the request: ${response.status}`);
+    }
+    const data = await response.json();
+
+    console.log("API Response:", data);
+
+    return data?.data?.results ?? [];
+  } catch (error) {
+    console.error("Error:", error);
+    return []; 
   }
 }
 
