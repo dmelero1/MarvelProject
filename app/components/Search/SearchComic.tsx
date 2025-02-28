@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { getComicsByTitle } from "~/services/marvelapi";
-import ComicCard from "../Comic/ComicCard";
 import type { Comic } from "~/types/interfaces";
 
 interface SearchComicProps {
