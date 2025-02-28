@@ -122,6 +122,24 @@ export async function getComicsByTitle(titleStartsWith: string): Promise<Comic[]
   }
 }
 
+export async function getComicById(id: number) {
+  const ts = Date.now().toString();
+  const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
+  const url = `https://gateway.marvel.com/v1/public/comics/${id}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error in the request: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data.results[0];
+  } catch (error) {
+    console.error("Error fetching comic:", error);
+    throw error;
+  }
+}
+
 export async function getSeries(): Promise<any[]> {
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
