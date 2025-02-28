@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { getCharactersByName } from "~/services/marvelapi";
-import CharacterList from "../components/Character/CharacterList";
+import React, { useState, useEffect } from "react";
 import { getCharacters } from "~/services/marvelapi";
+import CharacterList from "../components/Character/CharacterList";
 import SearchCharacter from "../components/Search/SearchCharacter";
 import type { Character } from "../types/interfaces";
-import { useLoaderData } from "react-router";
 
 export async function clientLoader() {
   try {
@@ -28,8 +26,14 @@ export function HydrateFallback() {
 }
 
 const Characters = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [search, setSearch] = useState<string>("");
+  const [characters, setCharacters] = useState<Character[]>(() => {
+    const storedCharacters = sessionStorage.getItem("characters");
+    return storedCharacters ? JSON.parse(storedCharacters) : [];
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem("characters", JSON.stringify(characters));
+  }, [characters]);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-5">
@@ -44,7 +48,7 @@ const Characters = () => {
         {characters.length === 0 ? (
           <p className="text-gray-400 text-center"></p>
         ) : (
-          <CharacterList characters={characters} hasSearched/>
+          <CharacterList characters={characters} />
         )}
       </div>
     </div>
