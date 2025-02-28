@@ -36,11 +36,20 @@ const Characters = () => {
   }, [characters]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-5">
+    <div
+  className="min-h-screen text-white p-5"
+  style={{
+    background: `
+      linear-gradient(45deg, rgba(0, 110, 193, 0.3), rgba(0, 115, 138, 0.1)) 
+      no-repeat fixed center,
+      url("/spiderman.jpg") 
+      no-repeat fixed center`,
+    backgroundSize: "cover",
+    backgroundPosition: "top center", 
+  }}
+>
       <div className="flex flex-col items-center w-full mt-10">
-        <h3 className="text-2xl font-bold text-red-500 mb-4 text-center">
-          Search for a Character
-        </h3>
+
         <SearchCharacter setCharacters={setCharacters} />
       </div>
 
@@ -54,5 +63,6 @@ const Characters = () => {
     </div>
   );
 };
+
 
 export default Characters;
