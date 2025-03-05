@@ -3,6 +3,56 @@ export interface Thumbnail {
   extension: string;
 }
 
+export interface Summary {
+  resourceURI: string;
+  name: string;
+}
+
+export interface Character {
+  id: number;
+  name: string;
+  description: string;
+  modified: string;
+  resourceURI: string;
+  thumbnail: Thumbnail;
+  comics: Comics;
+  series: Serie;
+  stories: Stories;
+  events: Events;
+}
+
+export interface Serie {
+  items: any;
+  id: number;
+  title: string;
+  description: string;
+  thumbnail: Thumbnail;
+  characters: {
+    items: Summary[];  
+  };
+  comics: {
+    items: Summary[]; 
+  };
+  events: {
+    items: EventSummary[];  
+  };
+  stories: {
+    items: StorySummary[];  
+  };
+  startYear?: number;  
+  endYear?: number;    
+}
+
+export interface StorySummary {
+  resourceURI: string;
+  name: string;
+}
+
+export interface EventSummary {
+  resourceURI: string;
+  name: string;
+}
+
 export interface ComicSummary {
   resourceURI: string;
   name: string;
@@ -15,79 +65,33 @@ export interface Comics {
   returned: number;
 }
 
-export interface SeriesSummary {
-  resourceURI: string;
-  name: string;
-}
-
-export interface Series {
+export interface Events {
   available: number;
   collectionURI: string;
-  items: SeriesSummary[];
+  items: EventSummary[];
   returned: number;
 }
 
 export interface Stories {
   available: number;
   collectionURI: string;
-  items: any[];
+  items: StorySummary[];
   returned: number;
 }
 
-export interface Events {
-  available: number;
-  collectionURI: string;
-  items: any[];
-  returned: number;
+export interface ApiResponseSeries {
+  code: number;
+  status: string;
+  data: {
+    offset: number;
+    limit: number;
+    total: number;
+    count: number;
+    results: Serie[];
+  };
 }
 
-export interface Character {
-  id: number;
-  name: string;
-  description: string;
-  modified: string;
-  resourceURI: string;
-  thumbnail: Thumbnail;
-  comics: Comics;
-  series: Series;
-  stories: Stories;
-  events: Events;
-}
-
-interface DateItem {
-  type: string;
-  date: string;
-}
-
-interface Price {
-  type: string;
-  price: number;
-}
-
-export interface Comic {
-  id: number;
-  digitalId: number;
-  title: string;
-  issueNumber: number;
-  variantDescription: string;
-  description: string;
-  modified: string;
-  isbn: string;
-  upc: string;
-  diamondCode: string;
-  ean: string;
-  issn: string;
-  format: string;
-  pageCount: number;
-  resourceURI: string;
-  thumbnail: Thumbnail;
-  series: SeriesSummary;
-  dates: DateItem[];
-  prices: Price[];
-  characters: Comics;
-}
-
-export interface ApiResponse {
+export interface ApiResponseCharacters {
   code: number;
   status: string;
   data: {

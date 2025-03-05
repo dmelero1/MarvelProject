@@ -4,7 +4,7 @@ import { getCharacterById } from "~/services/marvelapi";
 import type { Character } from "~/types/interfaces";
 
 const CharacterDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); // 🔥 Obtiene el ID desde la URL
+  const { id } = useParams<{ id: string }>();
   const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,12 +50,11 @@ const CharacterDetail: React.FC = () => {
         {character.description || "No description available."}
       </p>
 
-      {/* 🔥 Mostrar Series */}
       <div className="mt-6 w-full max-w-2xl">
         <h2 className="text-2xl font-semibold text-red-400">Series</h2>
         {character.series.items.length > 0 ? (
           <ul className="list-disc list-inside text-gray-300">
-            {character.series.items.map((series) => (
+            {character.series.items.map((series: { resourceURI: React.Key | null | undefined; name: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }) => (
               <li key={series.resourceURI}>{series.name}</li>
             ))}
           </ul>
@@ -64,7 +63,6 @@ const CharacterDetail: React.FC = () => {
         )}
       </div>
 
-      {/* 🔥 Mostrar Comics */}
       <div className="mt-6 w-full max-w-2xl">
         <h2 className="text-2xl font-semibold text-red-400">Comics</h2>
         {character.comics.items.length > 0 ? (
