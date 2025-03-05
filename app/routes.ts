@@ -5,7 +5,7 @@ export default [
         index("routes/characters.tsx"),
         route("character/:id", "routes/characterDetail.tsx"),
         route("comics", "routes/comics.tsx"),
-        route("comics/:id", "routes/comicDetails.tsx"),
+        route("comics/:comicId", "routes/comicDetails.tsx"),
         route("series", "./routes/series.tsx"),
     ]),
 ] satisfies RouteConfig;
