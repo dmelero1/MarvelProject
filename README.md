@@ -15,6 +15,9 @@ npm install crypto-js
 npm run dev
 ```
 
+```bash
+npm install react-icons
+```
 
 ## Figma
 We followed this [Figma Design](https://www.figma.com/design/JcdjdBVNLqiqLmSFGucRey/MarvelProject?node-id=1-37&t=7IXjS58ezKBWJztl-1)
