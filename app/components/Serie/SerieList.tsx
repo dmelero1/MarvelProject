@@ -1,5 +1,6 @@
 import React from "react";
-import SerieCard from "./SerieCard";
+import { Link } from "react-router";
+import { FaInfoCircle } from "react-icons/fa";
 
 interface Serie {
   id: number;
@@ -15,20 +16,27 @@ interface SeriesListProps {
   hasSearched: boolean;
 }
 
-const SeriesList = ({ series = [], hasSearched }: SeriesListProps) => {
-  if (!hasSearched) return null;
-
+const SeriesList: React.FC<SeriesListProps> = ({ series }) => {
   return (
-    <div className="p-6 text-center">
-      <h1 className="text-3xl font-bold text-white my-6">Marvel Series</h1>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      {series.map((serie) => (
+        <div key={serie.id} className="bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col h-full">
+          <img
+            src={`${serie.thumbnail.path}.${serie.thumbnail.extension}`}
+            alt={serie.title}
+            className="w-full h-40 object-cover rounded-lg"
+          />
+          <h3 className="text-xl text-center text-white mt-3 mb-2 truncate">{serie.title}</h3>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {series.length === 0 ? (
-          <p className="text-white text-center col-span-full">No series found</p>
-        ) : (
-          series.map((serie) => <SerieCard key={serie.id} serie={serie} />)
-        )}
-      </div>
+          <div className="flex justify-end mt-auto">
+            <Link
+              to={`/series/${serie.id}`}
+            >
+              <FaInfoCircle className="text-red-500 hover:text-red-700 transition duration-200" />
+            </Link>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
