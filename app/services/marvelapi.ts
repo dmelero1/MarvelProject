@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import type { ApiResponse, Character, Comic } from "../types/interfaces";
+import type { ApiResponseCharacters, ApiResponseSeries, Character, Comics, Serie } from "../types/interfaces";
 
 const publicKey = "f739cb1f8d597f885ba53ec152be4025";
 const privateKey = "661b36cb6b083e746265831e6f31ab158967cc87";
@@ -16,7 +16,7 @@ export async function getCharacters(limit: number = 500, offset: number = 0): Pr
       throw new Error(`Error in the request: ${response.status} - ${response.statusText}`);
     }
 
-    const data: ApiResponse = await response.json();
+    const data: ApiResponseCharacters = await response.json();
 
     console.log(`You get ${data.data.results.length} characters`);
     return data.data.results;
@@ -41,7 +41,7 @@ export async function getCharacterById(id: number): Promise<Character | null> {
       throw new Error(`Error in the request: ${response.status}`);
     }
 
-    const data: ApiResponse = await response.json();
+    const data: ApiResponseCharacters = await response.json();
     
     if (data.data.results.length === 0) {
       console.warn(`Didn't found character with id: ${id}`);
@@ -69,7 +69,7 @@ export async function getCharactersByName(startWith: string): Promise<Character[
     if (!response.ok) {
       throw new Error(`Error in the request: ${response.status}`);
     }
-    const data: ApiResponse = await response.json();
+    const data: ApiResponseCharacters = await response.json();
     console.log("Request of the API:", data);
 
     return data.data.results || [];
@@ -93,14 +93,14 @@ export async function getComics(): Promise<void> {
     if (!response.ok) {
       throw new Error(`Error in the request: ${response.status}`);
     }
-    const data: ApiResponse = await response.json();
+    const data: ApiResponseCharacters = await response.json();
     console.log("Request of the API:", data);
   } catch (error) {
     console.error("Error:", error);
   }
 }
 
-export async function getComicsByTitle(titleStartsWith: string): Promise<Comic[]> {
+export async function getComicsByTitle(titleStartsWith: string): Promise<Comics[]> {
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
 
@@ -167,6 +167,57 @@ export async function getSeries(): Promise<any[]> {
     return [];
   }
 }
+
+export const getSeriesById = async (id: number): Promise<Serie | null> => {
+  const ts = Date.now().toString();  
+  const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString(); 
+
+  const url = `https://gateway.marvel.com/v1/public/series/${id}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.status}`);
+    }
+
+    const data: ApiResponseSeries = await response.json();
+
+    if (data.data.results.length === 0) {
+      console.warn(`No se encontró la serie con id: ${id}`);
+      return null;
+    }
+
+    const serie = data.data.results[0];
+
+    const formattedSerie: Serie = {
+      id: serie.id,
+      title: serie.title,
+      description: serie.description || "No description available.",
+      thumbnail: serie.thumbnail,
+      characters: {
+        items: serie.characters.items || [],
+      },
+      comics: {
+        items: serie.comics.items || [],
+      },
+      events: {
+        items: serie.events.items || [],
+      },
+      stories: {
+        items: serie.stories.items || [],
+      },
+      startYear: serie.startYear,
+      endYear: serie.endYear,
+      items: undefined
+    };
+
+    return formattedSerie;
+  } catch (error) {
+    console.error("Error en getSeriesById:", error);
+    return null;
+  }
+};
 
 // Llamada de ejemplo
 getCharactersByName("S")
