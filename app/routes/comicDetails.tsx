@@ -12,6 +12,7 @@ const ComicDetails: React.FC = () => {
   useEffect(() => {
     const fetchComic = async () => {
       if (!comicId || isNaN(Number(comicId))) {
+        console.log("Comic ID:", comicId);
         setError("Invalid comic ID.");
         setLoading(false);
         return;
