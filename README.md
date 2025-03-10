@@ -62,6 +62,28 @@ We develop a Single Page Application (SPA) using React with multiple routes. Thi
     ├── interfaces.ts
 - **interfaces.ts**: Define the structure of the data objects used throughout the application
 
+## Component Organization
+Atomic Components
+
+![Captura de pantalla 2025-03-10 121339](https://github.com/user-attachments/assets/f83725f8-6bae-4e2e-8148-306e75c1a29c)
+
+Molecular Components
+
+![molecular](https://github.com/user-attachments/assets/25c3c9cc-da81-4c9d-9bdc-837ed3490961)
+
+Organism Components
+
+![organism](https://github.com/user-attachments/assets/52693f4c-e862-400f-b97c-a04e651cebc6)
+
+Layout Components
+
+![layout](https://github.com/user-attachments/assets/7953647c-9b5b-4db7-b5b0-cf40b66aaaab)
+
+Route Components
+
+![route](https://github.com/user-attachments/assets/fc92ffb3-9345-41bd-97b0-22085ebee16a)
+
+
 ### Installation and deployment
 
 ```bash
