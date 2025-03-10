@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { getSeriesById } from "~/services/marvelapi";
 import type { Serie } from "~/types/interfaces";
 
@@ -35,7 +35,11 @@ const SerieDetails: React.FC = () => {
   }
 
   if (error || !serie) {
-    return <p className="text-red-500 text-center mt-10">{error || "Serie not found."}</p>;
+    return (
+      <p className="text-red-500 text-center mt-10">
+        {error || "Serie not found."}
+      </p>
+    );
   }
 
   return (
@@ -56,7 +60,14 @@ const SerieDetails: React.FC = () => {
         {serie.characters.items.length > 0 ? (
           <ul className="list-disc list-inside text-gray-300">
             {serie.characters.items.map((character) => (
-              <li key={character.resourceURI}>{character.name}</li>
+              <li key={character.resourceURI}>
+                <Link
+                  to={`/character/${character.resourceURI.split("/").pop()}`}
+                  className="text-gray-300 hover:text-red-600 transition duration-200"
+                >
+                  {character.name}
+                </Link>
+              </li>
             ))}
           </ul>
         ) : (
@@ -69,7 +80,14 @@ const SerieDetails: React.FC = () => {
         {serie.comics.items.length > 0 ? (
           <ul className="list-disc list-inside text-gray-300">
             {serie.comics.items.map((comic) => (
-              <li key={comic.resourceURI}>{comic.name}</li>
+              <li key={comic.resourceURI}>
+                <Link
+                  to={`/comics/${comic.resourceURI.split("/").pop()}`}
+                  className="text-gray-300 hover:text-red-600 transition duration-200"
+                >
+                  {comic.name}
+                </Link>
+              </li>
             ))}
           </ul>
         ) : (
@@ -82,7 +100,14 @@ const SerieDetails: React.FC = () => {
         {serie.events.items.length > 0 ? (
           <ul className="list-disc list-inside text-gray-300">
             {serie.events.items.map((event) => (
-              <li key={event.resourceURI}>{event.name}</li>
+              <li key={event.resourceURI}>
+                <Link
+                  to={`/events/${event.resourceURI.split("/").pop()}`}
+                  className="text-gray-300 hover:text-red-600 transition duration-200"
+                >
+                  {event.name}
+                </Link>
+              </li>
             ))}
           </ul>
         ) : (
@@ -91,7 +116,9 @@ const SerieDetails: React.FC = () => {
       </div>
 
       <div className="mt-6 w-full max-w-2xl">
-        <h2 className="text-2xl font-semibold text-red-400">Years of the Serie</h2>
+        <h2 className="text-2xl font-semibold text-red-400">
+          Years of the Serie
+        </h2>
         <p className="text-gray-300">
           <strong>Start:</strong> {serie.startYear ? serie.startYear : "N/A"}
         </p>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { getCharacterById } from "~/services/marvelapi";
-import type { Character } from "~/types/interfaces";
+import type { Character, SeriesItem } from "~/types/interfaces";
 
 const CharacterDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,7 +34,11 @@ const CharacterDetail: React.FC = () => {
   }
 
   if (error || !character) {
-    return <p className="text-red-500 text-center mt-10">{error || "Character not found."}</p>;
+    return (
+      <p className="text-red-500 text-center mt-10">
+        {error || "Character not found."}
+      </p>
+    );
   }
 
   return (
@@ -54,8 +58,15 @@ const CharacterDetail: React.FC = () => {
         <h2 className="text-2xl font-semibold text-red-400">Series</h2>
         {character.series.items.length > 0 ? (
           <ul className="list-disc list-inside text-gray-300">
-            {character.series.items.map((series: { resourceURI: React.Key | null | undefined; name: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }) => (
-              <li key={series.resourceURI}>{series.name}</li>
+            {character.series.items.map((seriesItem: SeriesItem) => (
+              <li key={seriesItem.resourceURI}>
+                <Link
+                  to={`/series/${seriesItem.resourceURI.split("/").pop()}`}
+                  className="text-gray-300 hover:text-red-600 transition duration-200"
+                >
+                  {seriesItem.name}
+                </Link>
+              </li>
             ))}
           </ul>
         ) : (
@@ -68,7 +79,14 @@ const CharacterDetail: React.FC = () => {
         {character.comics.items.length > 0 ? (
           <ul className="list-disc list-inside text-gray-300">
             {character.comics.items.map((comic) => (
-              <li key={comic.resourceURI}>{comic.name}</li>
+              <li key={comic.resourceURI}>
+                <Link
+                  to={`/comics/${comic.resourceURI.split("/").pop()}`}
+                  className="text-gray-300 hover:text-red-600 transition duration-200"
+                >
+                  {comic.name}
+                </Link>
+              </li>
             ))}
           </ul>
         ) : (

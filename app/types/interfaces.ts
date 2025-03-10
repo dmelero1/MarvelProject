@@ -43,6 +43,11 @@ export interface Serie {
   endYear?: number;
 }
 
+export interface SeriesItem {
+  resourceURI: string;
+  name: string;
+}
+
 export interface StorySummary {
   resourceURI: string;
   name: string;
