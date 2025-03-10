@@ -15,7 +15,7 @@ export interface Character {
   modified: string;
   resourceURI: string;
   thumbnail: Thumbnail;
-  comics: Comics;
+  comics: Comic;
   series: Serie;
   stories: Stories;
   events: Events;
@@ -28,19 +28,19 @@ export interface Serie {
   description: string;
   thumbnail: Thumbnail;
   characters: {
-    items: Summary[];  
+    items: Summary[];
   };
   comics: {
-    items: Summary[]; 
+    items: Summary[];
   };
   events: {
-    items: EventSummary[];  
+    items: EventSummary[];
   };
   stories: {
-    items: StorySummary[];  
+    items: StorySummary[];
   };
-  startYear?: number;  
-  endYear?: number;    
+  startYear?: number;
+  endYear?: number;
 }
 
 export interface StorySummary {
@@ -58,11 +58,26 @@ export interface ComicSummary {
   name: string;
 }
 
-export interface Comics {
-  available: number;
-  collectionURI: string;
-  items: ComicSummary[];
-  returned: number;
+export interface SeriesSummary {
+  resourceURI: string;
+  name: string;
+}
+
+export interface DateItem {
+  type: string;
+  date: string;
+}
+
+export interface Comic {
+  id: number;
+  title: string;
+  description: string;
+  thumbnail: Thumbnail;
+  series: SeriesSummary;
+  characters: {
+    items: Summary[];
+  };
+  dates: DateItem[];
 }
 
 export interface Events {
@@ -103,3 +118,14 @@ export interface ApiResponseCharacters {
   };
 }
 
+export interface ApiResponseComics {
+  code: number;
+  status: string;
+  data: {
+    offset: number;
+    limit: number;
+    total: number;
+    count: number;
+    results: Comic[];
+  };
+}
