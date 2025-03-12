@@ -14,12 +14,11 @@ const ComicList: React.FC<ComicListProps> = ({ comics = [], hasSearched }) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-3">
-      {comics.map((comic) => (
-        comic ? <ComicCard key={comic.id} comic={comic} /> : null 
-      ))}
+      {comics.map((comic) =>
+        comic ? <ComicCard key={comic.id} comic={comic} /> : null
+      )}
     </div>
   );
 };
 
 export default ComicList;
-

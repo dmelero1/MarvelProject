@@ -31,9 +31,15 @@ const Comics = () => {
   const [orderBy, setOrderBy] = useState<"oldest" | "newest">("newest");
 
   const sortedComics = [...comics].sort((a, b) => {
-    const dateA = new Date(a.dates.find((d) => d.type === "onsaleDate")?.date || 0);
-    const dateB = new Date(b.dates.find((d) => d.type === "onsaleDate")?.date || 0);
-    return orderBy === "newest" ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime();
+    const dateA = new Date(
+      a.dates.find((d) => d.type === "onsaleDate")?.date || 0
+    );
+    const dateB = new Date(
+      b.dates.find((d) => d.type === "onsaleDate")?.date || 0
+    );
+    return orderBy === "newest"
+      ? dateB.getTime() - dateA.getTime()
+      : dateA.getTime() - dateB.getTime();
   });
 
   return (
@@ -47,7 +53,9 @@ const Comics = () => {
       }}
     >
       <header className="bg-gray-800 shadow-lg rounded-2xl p-8 max-w-lg text-center">
-        <h3 className="text-2xl font-bold text-red-500 mb-4">Search for a Comic</h3>
+        <h3 className="text-2xl font-bold text-red-500 mb-4">
+          Search for a Comic
+        </h3>
         <SearchComic setComics={setComics} />
       </header>
 
@@ -55,13 +63,21 @@ const Comics = () => {
         <div className="flex gap-4 my-6">
           <button
             onClick={() => setOrderBy("newest")}
-            className={`px-4 py-2 rounded-lg ${orderBy === "newest" ? "bg-red-600 text-white" : "bg-gray-700 text-gray-300"}`}
+            className={`px-4 py-2 rounded-lg ${
+              orderBy === "newest"
+                ? "bg-red-600 text-white"
+                : "bg-gray-700 text-gray-300"
+            }`}
           >
             Newest
           </button>
           <button
             onClick={() => setOrderBy("oldest")}
-            className={`px-4 py-2 rounded-lg ${orderBy === "oldest" ? "bg-red-600 text-white" : "bg-gray-700 text-gray-300"}`}
+            className={`px-4 py-2 rounded-lg ${
+              orderBy === "oldest"
+                ? "bg-red-600 text-white"
+                : "bg-gray-700 text-gray-300"
+            }`}
           >
             Oldest
           </button>
@@ -78,10 +94,10 @@ const Comics = () => {
           </div>
         </div>
       ) : (
-        <p className="text-white mt-4">No comics found.</p>
+        <p className="text-white mt-4"></p>
       )}
     </div>
   );
-}
+};
 
 export default Comics;
