@@ -44,7 +44,7 @@ const SearchComic: React.FC<SearchComicProps> = ({ setComics }) => {
           placeholder="Search a comic..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-600 rounded-lg shadow-md text-gray-200 bg-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200"
+          className="w-full px-4 py-2 border border-gray-600 rounded-lg shadow-md text-gray-200 bg-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200"
         />
         <button
           className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition duration-200 cursor-pointer"

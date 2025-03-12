@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchComic from "../components/Search/SearchComic";
 import ComicCard from "../components/Comic/ComicCard";
 import type { Comic } from "~/types/interfaces";
@@ -37,7 +37,15 @@ const Comics = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-5">
+    <div
+      className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-5"
+      style={{
+        backgroundImage: `url(/ironman-bg.png)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
       <header className="bg-gray-800 shadow-lg rounded-2xl p-8 max-w-lg text-center">
         <h3 className="text-2xl font-bold text-red-500 mb-4">Search for a Comic</h3>
         <SearchComic setComics={setComics} />
@@ -70,7 +78,7 @@ const Comics = () => {
           </div>
         </div>
       ) : (
-        <p className="text-gray-400 mt-4"></p>
+        <p className="text-white mt-4">No comics found.</p>
       )}
     </div>
   );

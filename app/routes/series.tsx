@@ -26,6 +26,26 @@ const Series = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Add the background styles to the body element
+    document.body.style.backgroundImage = `url('/doom-bg.png')`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.height = '100%';
+    document.body.style.width = '100%';
+
+    // Remove the background styles when the component unmounts
+    return () => {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundSize = '';
+      document.body.style.backgroundPosition = '';
+      document.body.style.backgroundAttachment = '';
+      document.body.style.height = '';
+      document.body.style.width = '';
+    };
+  }, []);
+
   const fetchSeries = async () => {
     try {
       const seriesData = await getSeries();
@@ -44,7 +64,7 @@ const Series = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-5xl mx-auto mt-10">
+    <div className="flex flex-col items-center w-full max-w-5xl mx-auto mt-10 min-h-screen">
       {!hasSearched && (
         <button
           className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-800 transition duration-200 cursor-pointer"

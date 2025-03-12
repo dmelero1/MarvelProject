@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import type { ApiResponseCharacters, ApiResponseSeries, Character, Comics, Serie } from "../types/interfaces";
+import type { ApiResponseCharacters, ApiResponseSeries, Character, Comic, Serie } from "../types/interfaces";
 
 const publicKey = "f739cb1f8d597f885ba53ec152be4025";
 const privateKey = "661b36cb6b083e746265831e6f31ab158967cc87";
@@ -100,7 +100,7 @@ export async function getComics(): Promise<void> {
   }
 }
 
-export async function getComicsByTitle(titleStartsWith: string): Promise<Comics[]> {
+export async function getComicsByTitle(titleStartsWith: string): Promise<Comic[]> {
   const ts = Date.now().toString();
   const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
 
