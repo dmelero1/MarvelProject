@@ -32,7 +32,7 @@ We followed this [Figma MarvelApi Design](https://www.figma.com/design/JcdjdBVNL
     ```
 - **API:** Marvel API
 
-- **Deployment:** GitHub Pages
+- **Deployment:** Vercel
 
 ## 5.Installation Instruction
 ```
