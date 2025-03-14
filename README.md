@@ -179,3 +179,5 @@ Route Components
 ![route](https://github.com/user-attachments/assets/fc92ffb3-9345-41bd-97b0-22085ebee16a)
 
 ## 9. Deployed Application
+
+MarvelAPI on Vercel (https://marvel-project-snowy.vercel.app/)
